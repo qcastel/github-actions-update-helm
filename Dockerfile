@@ -13,6 +13,8 @@ WORKDIR /github/workspace
 
 # Copy the entrypoint script
 COPY entrypoints.sh /entrypoints.sh
+COPY add-ssh-key.sh /add-ssh-key.sh
 RUN chmod +x /entrypoints.sh
+RUN chmod +x /add-ssh-key.sh
 
 ENTRYPOINT ["/entrypoints.sh"]
