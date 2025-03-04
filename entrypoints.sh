@@ -26,17 +26,10 @@ else
   echo "GPG signing is not enabled"
 fi
 
-# Set up SSH first
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-ssh-keyscan github.com >> ~/.ssh/known_hosts
-chmod 644 ~/.ssh/known_hosts
-
-# Configuration de la clé SSH (optionnelle)
+#Setup SSH key
 if [[ -n "${SSH_PRIVATE_KEY}" ]]; then
   echo "Add SSH key"
-  echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-  chmod 600 ~/.ssh/id_rsa
+  add-ssh-key.sh
 else
   echo "No SSH key defined"
 fi
@@ -46,8 +39,7 @@ git clone "${REPO}" deployment-repo
 cd deployment-repo
 
 # Checkout the specified branch
-git fetch origin "${BRANCH_NAME}" || true
-git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}" || git checkout -b "${BRANCH_NAME}"
+git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}"
 
 # Mettre à jour les valeurs dans le fichier YAML
 IFS=',' read -r -a paths <<< "$YAML_PATHS"
@@ -57,6 +49,5 @@ do
 done
 
 # Commit et push des modifications
-git add "$FILE_PATH"
-git commit -m "Update YAML tags to $TAG"
+git commit -am "Update YAML tags to $TAG"
 git push origin "${BRANCH_NAME}"
