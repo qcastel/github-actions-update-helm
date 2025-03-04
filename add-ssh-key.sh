@@ -4,6 +4,7 @@ eval $(ssh-agent -s)
 
 GIT_SSH=/usr/bin/ssh
 
+SSH_ROOT_FOLDER=${SSH_ROOT_FOLDER:-~/.ssh}
 echo "Do a SSH add with the key under env 'SSH_PRIVATE_KEY'"
 mkdir -p ${SSH_ROOT_FOLDER}/
 echo "$SSH_PRIVATE_KEY" | base64 -d > ${SSH_ROOT_FOLDER}/id_rsa
