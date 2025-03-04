@@ -18,9 +18,9 @@ inputs:
     description: "git repository where to run the upgrade"
     required: true
   branch-name:
-    description: 'The branch to push to'
+    description: "The branch to push to"
     required: false
-    default: 'master'
+    default: "master"
   git-release-bot-email:
     description: "Email for the Git release bot"
     required: true
@@ -44,10 +44,10 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
-  args: 
+  args:
     - entrypoints.sh
   env:
-    TAG:  ${{ inputs.tag }}     
+    TAG: ${{ inputs.tag }}
     YAML_PATHS: ${{ inputs.yaml_paths }}
     FILE_PATH: ${{ inputs.file_path }}
     BRANCH_NAME: ${{ inputs.branch-name }}
@@ -59,4 +59,3 @@ runs:
     GPG_KEY: ${{ inputs.gpg-key }}
     SSH_PRIVATE_KEY: ${{ inputs.ssh-private-key }}
     REPO: ${{ inputs.repository }}
-    BRANCH_NAME: ${{ inputs.branch-name }}
