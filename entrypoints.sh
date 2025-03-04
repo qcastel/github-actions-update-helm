@@ -6,7 +6,7 @@ set -e
 TAG=$1
 YAML_PATHS=$2
 FILE_PATH=$3
-BRANCH_NAME="${4:-main}"  # Add branch name parameter with default to main
+BRANCH_NAME="${4:-main}"
 
 # Configuration Git
 git config --global user.email "${GIT_RELEASE_BOT_EMAIL}"
@@ -26,23 +26,27 @@ else
   echo "GPG signing is not enabled"
 fi
 
+# Set up SSH first
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+chmod 644 ~/.ssh/known_hosts
+
 # Configuration de la clé SSH (optionnelle)
 if [[ -n "${SSH_PRIVATE_KEY}" ]]; then
   echo "Add SSH key"
-  mkdir -p ~/.ssh
   echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
   chmod 600 ~/.ssh/id_rsa
-  ssh-keyscan github.com >> ~/.ssh/known_hosts
 else
   echo "No SSH key defined"
 fi
 
-echo "Clone repository '${REPO}' and commit on branch '${BRANCH_NAME}' a manifest change to use '${VERSION}' docker images."
+# Clone the repository
 git clone "${REPO}" deployment-repo
-
-echo "Repo cloned. Go to deployment-repo"
 cd deployment-repo
 
+# Checkout the specified branch
+git fetch origin "${BRANCH_NAME}" || true
 git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}" || git checkout -b "${BRANCH_NAME}"
 
 # Mettre à jour les valeurs dans le fichier YAML
@@ -55,4 +59,4 @@ done
 # Commit et push des modifications
 git add "$FILE_PATH"
 git commit -m "Update YAML tags to $TAG"
-git push origin "${BRANCH_NAME}"  # Change HEAD to BRANCH_NAME
+git push origin "${BRANCH_NAME}"
