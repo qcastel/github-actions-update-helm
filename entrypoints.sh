@@ -39,6 +39,7 @@ git clone "${REPO}" deployment-repo
 
 echo "Repo cloned. Go to deployment-repo"
 cd deployment-repo
+ssh-keygen -R github.com
 # Checkout the specified branch
 git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}"
 
