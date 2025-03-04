@@ -37,8 +37,12 @@ else
   echo "No SSH key defined"
 fi
 
-# Checkout the specified branch
-git fetch origin "${BRANCH_NAME}" || true
+echo "Clone repository '${REPO}' and commit on branch '${BRANCH_NAME}' a manifest change to use '${VERSION}' docker images."
+git clone "${REPO}" deployment-repo
+
+echo "Repo cloned. Go to deployment-repo"
+cd deployment-repo
+
 git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}" || git checkout -b "${BRANCH_NAME}"
 
 # Mettre à jour les valeurs dans le fichier YAML

@@ -10,6 +10,12 @@ inputs:
   file_path:
     description: "Path to the YAML file to update"
     required: true
+  repository:
+    description: "git repository where to run the upgrade"
+    required: true
+  branch_name:
+    description: "branch name where to commit the changes"
+    required: true
   git_release_bot_email:
     description: "Email for the Git release bot"
     required: true
@@ -44,3 +50,5 @@ runs:
     GPG_KEY_ID: ${{ inputs.gpg_key_id }}
     GPG_KEY: ${{ inputs.gpg_key }}
     SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
+    REPO: ${{ inputs.repository }}
+    BRANCH_NAME: ${{ inputs.branch_name }}
