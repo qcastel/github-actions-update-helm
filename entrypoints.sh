@@ -34,10 +34,11 @@ else
   echo "No SSH key defined"
 fi
 
-# Clone the repository
+echo "Clone repository '${REPO}' and commit on branch '${BRANCH_NAME}' a manifest change to use '${TAG}' docker images."
 git clone "${REPO}" deployment-repo
-cd deployment-repo
 
+echo "Repo cloned. Go to deployment-repo"
+cd deployment-repo
 # Checkout the specified branch
 git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}"
 
