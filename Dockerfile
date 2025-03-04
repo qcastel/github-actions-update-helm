@@ -10,7 +10,7 @@ RUN apt-get update && \
 WORKDIR /github/workspace
 
 # Copy the entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY entrypoints.sh /entrypoints.sh
+RUN chmod +x /entrypoints.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoints.sh"]
