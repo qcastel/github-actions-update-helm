@@ -6,6 +6,7 @@ set -e
 TAG=$1
 YAML_PATHS=$2
 FILE_PATH=$3
+BRANCH_NAME="${4:-main}"  # Add branch name parameter with default to main
 
 # Configuration Git
 git config --global user.email "${GIT_RELEASE_BOT_EMAIL}"
@@ -36,6 +37,10 @@ else
   echo "No SSH key defined"
 fi
 
+# Checkout the specified branch
+git fetch origin "${BRANCH_NAME}" || true
+git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}" || git checkout -b "${BRANCH_NAME}"
+
 # Mettre à jour les valeurs dans le fichier YAML
 IFS=',' read -r -a paths <<< "$YAML_PATHS"
 for path in "${paths[@]}"
@@ -46,4 +51,4 @@ done
 # Commit et push des modifications
 git add "$FILE_PATH"
 git commit -m "Update YAML tags to $TAG"
-git push origin HEAD
+git push origin "${BRANCH_NAME}"  # Change HEAD to BRANCH_NAME
