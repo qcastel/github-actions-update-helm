@@ -1,0 +1,46 @@
+name: "Update YAML Tags"
+description: "Updates specified YAML paths with a given tag in a YAML file and commits the changes"
+inputs:
+  tag:
+    description: "Tag to update in YAML files"
+    required: true
+  yaml_paths:
+    description: "List of YAML paths to update (comma-separated)"
+    required: true
+  file_path:
+    description: "Path to the YAML file to update"
+    required: true
+  git_release_bot_email:
+    description: "Email for the Git release bot"
+    required: true
+  git_release_bot_name:
+    description: "Name for the Git release bot"
+    required: true
+  gpg_enabled:
+    description: "Enable GPG signing (true or false)"
+    required: false
+    default: "false"
+  gpg_key_id:
+    description: "GPG key ID for signing commits"
+    required: false
+  gpg_key:
+    description: "GPG private key (base64 encoded)"
+    required: false
+  ssh_private_key:
+    description: "SSH private key for repository access"
+    required: false
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.tag }}
+    - ${{ inputs.yaml_paths }}
+    - ${{ inputs.file_path }}
+  env:
+    GIT_RELEASE_BOT_EMAIL: ${{ inputs.git_release_bot_email }}
+    GIT_RELEASE_BOT_NAME: ${{ inputs.git_release_bot_name }}
+    GPG_ENABLED: ${{ inputs.gpg_enabled }}
+    GPG_KEY_ID: ${{ inputs.gpg_key_id }}
+    GPG_KEY: ${{ inputs.gpg_key }}
+    SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
