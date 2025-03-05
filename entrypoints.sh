@@ -38,7 +38,7 @@ IFS=',' read -r -a paths <<< "$YAML_PATHS"
 for path in "${paths[@]}"
 do
   echo "Update YAML path '${path}' to '${TAG}'"
-  yq -i ".${path} = \"$TAG\"" "$FILE_PATH"
+  yq ".${path} = \"$TAG\"" "$FILE_PATH" -i
 done
 
 cat "$FILE_PATH"
