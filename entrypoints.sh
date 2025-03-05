@@ -1,12 +1,4 @@
 #!/bin/bash
-
-
-# Variables d'entrée
-TAG=$1
-YAML_PATHS=$2
-FILE_PATH=$3
-BRANCH_NAME="${4:-main}"
-
 # Configuration Git
 git config --global user.email "${GIT_RELEASE_BOT_EMAIL}"
 git config --global user.name "${GIT_RELEASE_BOT_NAME}"
