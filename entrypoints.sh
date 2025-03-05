@@ -42,13 +42,15 @@ ssh-keygen -R github.com
 # Checkout the specified branch
 git checkout -B "${BRANCH_NAME}" "origin/${BRANCH_NAME}"
 
-# Mettre à jour les valeurs dans le fichier YAML
 IFS=',' read -r -a paths <<< "$YAML_PATHS"
 for path in "${paths[@]}"
 do
+  echo "Update YAML path '${path}' to '${TAG}'"
   yq eval --inplace ".${path} = \"$TAG\"" "$FILE_PATH"
 done
 
-# Commit et push des modifications
+cat "$FILE_PATH"
+
+echo "Commit and push changes"
 git commit -am "Update YAML tags to $TAG"
 git push origin "${BRANCH_NAME}"

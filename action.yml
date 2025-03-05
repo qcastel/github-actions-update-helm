@@ -48,8 +48,8 @@ runs:
     - entrypoints.sh
   env:
     TAG: ${{ inputs.tag }}
-    YAML_PATHS: ${{ inputs.yaml_paths }}
-    FILE_PATH: ${{ inputs.file_path }}
+    YAML_PATHS: ${{ inputs.yaml-paths }}
+    FILE_PATH: ${{ inputs.file-path }}
     BRANCH_NAME: ${{ inputs.branch-name }}
     SSH_ROOT_FOLDER: /root/.ssh
     GIT_RELEASE_BOT_EMAIL: ${{ inputs.git-release-bot-email }}
